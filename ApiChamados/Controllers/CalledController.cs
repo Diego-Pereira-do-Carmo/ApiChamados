@@ -1,6 +1,6 @@
-﻿using ApiChamados.Interfaces;
+﻿using ApiChamados.Interfaces.Repository;
+using ApiChamados.Interfaces.Service;
 using ApiChamados.Models;
-using ApiChamados.Service.Interfaces;
 using ApiChamados.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,26 +10,65 @@ namespace ApiChamados.Controllers
     [Route("api/called")]
     public class CalledController : ControllerBase
     {
-        private readonly ICalledRepository _calledRepository;
+        private readonly ICalledService _calledService;
         private readonly ICalledStatusService _calledStatusService;
 
-        public CalledController (ICalledRepository calledRepository, ICalledStatusService calledStatusService)
+        public CalledController(ICalledService calledService, ICalledStatusService calledStatusService)
         {
-            _calledRepository = calledRepository;
+            _calledService = calledService;
             _calledStatusService = calledStatusService;
         }
 
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> Add(CalledViewModel calledViewModel)
+        public async Task<IActionResult> Add([FromBody] CalledViewModel calledViewModel)
         {
-            var statusList = await _calledStatusService.FindAllAsync();
-            var status = statusList.Find(cs => cs.Name == "Aguardando Atendimento").Id;
+            try
+            {
+                var called = new Called(calledViewModel.Code, calledViewModel.Title, calledViewModel.Description, calledViewModel.StatusId);
+                _calledService.Add(called);
 
-            var called = new Called(calledViewModel.Code, calledViewModel.Title, calledViewModel.Description, status);
-            _calledRepository.Add(called);
+                return Ok(new { message = "O chamado foi criado com sucesso." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Ocorreu um erro interno ao processar a solicitação." });
+            }
+        }
 
-            return Ok(called);
+        [HttpGet]
+        [Route("getAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var CalledList = await _calledService.GetAll();
+                return Ok(CalledList);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Falha ao buscar os chamados" });
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteById")]
+        public async Task<IActionResult> DeleteById([FromBody] Guid id)
+        {
+            try
+            {
+                if(id == null)
+                {
+                    return StatusCode(500, new { message = "Falha ao deletar chamados, passe um Id valido" });
+                }
+
+                var isDeleted = _calledService.DeleteById(id);
+                return Ok(new { message = isDeleted });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Falha ao deletar chamados" });
+            }
         }
     }
 }

@@ -1,7 +1,8 @@
 using ApiChamados.Interfaces;
+using ApiChamados.Interfaces.Repository;
+using ApiChamados.Interfaces.Service;
 using ApiChamados.Repository;
 using ApiChamados.Service;
-using ApiChamados.Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +13,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddTransient<ICalledService, CalledService>();
 builder.Services.AddTransient<ICalledRepository, CalledRepository>();
-builder.Services.AddTransient<ICalledStatusRepository, CalledStatusRepository>();
 builder.Services.AddTransient<ICalledStatusService, CalledStatusService>();
+builder.Services.AddTransient<ICalledStatusRepository, CalledStatusRepository>();
 
 var app = builder.Build();
 

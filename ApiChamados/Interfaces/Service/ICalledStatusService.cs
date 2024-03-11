@@ -1,10 +1,10 @@
 ﻿using ApiChamados.Models;
 
-namespace ApiChamados.Service.Interfaces
+namespace ApiChamados.Interfaces.Service
 {
     public interface ICalledStatusService
     {
         public void Add(CalledStatus calledStatus);
-        Task<List<CalledStatus>> FindAllAsync();
+        Task<List<CalledStatus>> GetAll();
     }
 }

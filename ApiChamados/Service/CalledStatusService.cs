@@ -1,7 +1,7 @@
 ﻿using ApiChamados.Context;
 using ApiChamados.Interfaces;
+using ApiChamados.Interfaces.Service;
 using ApiChamados.Models;
-using ApiChamados.Service.Interfaces;
 
 namespace ApiChamados.Service
 {
@@ -19,9 +19,9 @@ namespace ApiChamados.Service
             _calledStatusRepository.Add(calledStatus);
         }
 
-        public async Task<List<CalledStatus>> FindAllAsync()
+        public async Task<List<CalledStatus>> GetAll()
         {
-            return await _calledStatusRepository.FindAllAsync();
+            return await _calledStatusRepository.GetAll();
         }
     }
 }

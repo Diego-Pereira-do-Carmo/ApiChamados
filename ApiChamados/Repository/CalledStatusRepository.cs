@@ -15,7 +15,7 @@ namespace ApiChamados.Repository
             _context.SaveChanges();
         }
 
-        public async Task<List<CalledStatus>> FindAllAsync()
+        public async Task<List<CalledStatus>> GetAll()
         {
             return await _context.CalledStatus.OrderBy(s => s.Name).ToListAsync();
         }

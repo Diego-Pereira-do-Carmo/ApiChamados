@@ -1,6 +1,6 @@
 ﻿using ApiChamados.Interfaces;
+using ApiChamados.Interfaces.Service;
 using ApiChamados.Models;
-using ApiChamados.Service.Interfaces;
 using ApiChamados.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +19,7 @@ namespace ApiChamados.Controllers
 
         [HttpPost]
         [Route("add")]
-        public IActionResult Add(CalledStatusViewModel calledStausViewModel)
+        public IActionResult Add([FromBody] CalledStatusViewModel calledStausViewModel)
         {
             var calledStatus = new CalledStatus(calledStausViewModel.Name);
             _calledStatusService.Add(calledStatus);
@@ -27,10 +27,10 @@ namespace ApiChamados.Controllers
         }
 
         [HttpGet]
-        [Route("FindAll")]
-        public async Task<IActionResult> FindAll()
+        [Route("GetAll")]
+        public async Task<IActionResult> GetAll()
         {
-            var calledStatusList = await _calledStatusService.FindAllAsync();
+            var calledStatusList = await _calledStatusService.GetAll();
             return Ok(calledStatusList);
         }
     }

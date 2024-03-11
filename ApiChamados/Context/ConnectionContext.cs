@@ -7,7 +7,12 @@ namespace ApiChamados.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-I0JB759\\SQLEXPRESS01;Database=ApiChamados;Integrated Security=SSPI;TrustServerCertificate=True;");
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         }
 
         public DbSet<Called> Called { get; set; }

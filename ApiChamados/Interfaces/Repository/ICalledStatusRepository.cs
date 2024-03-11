@@ -6,6 +6,6 @@ namespace ApiChamados.Interfaces
     {
         void Add(CalledStatus calledStatus);
 
-        Task<List<CalledStatus>> FindAllAsync();
+        Task<List<CalledStatus>> GetAll();
     }
 }
