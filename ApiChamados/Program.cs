@@ -1,10 +1,17 @@
+using ApiChamados.Context;
 using ApiChamados.Interfaces;
 using ApiChamados.Interfaces.Repository;
 using ApiChamados.Interfaces.Service;
 using ApiChamados.Repository;
 using ApiChamados.Service;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ConnectionContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 // Add services to the container.
 

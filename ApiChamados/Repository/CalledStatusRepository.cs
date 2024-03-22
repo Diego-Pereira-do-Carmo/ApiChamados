@@ -7,7 +7,12 @@ namespace ApiChamados.Repository
 {
     public class CalledStatusRepository : ICalledStatusRepository
     {
-        private readonly ConnectionContext _context = new ConnectionContext();
+        private readonly ConnectionContext _context;
+
+        public CalledStatusRepository(ConnectionContext context)
+        {
+            _context = context;
+        }
 
         public void Add(CalledStatus calledStatus)
         {

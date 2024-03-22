@@ -5,14 +5,9 @@ namespace ApiChamados.Context
 {
     public class ConnectionContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+        public ConnectionContext(DbContextOptions<ConnectionContext> options) :
+            base(options)
+        { 
         }
 
         public DbSet<Called> Called { get; set; }
