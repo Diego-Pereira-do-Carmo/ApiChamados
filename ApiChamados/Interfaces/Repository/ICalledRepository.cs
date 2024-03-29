@@ -6,6 +6,8 @@ namespace ApiChamados.Interfaces.Repository
     {
         void Add(Called called);
         public Task<List<Called>> GetAll();
+        public Task<Called> GetByCode(string code);
+        public Task<List<Called>> GetByCalledStatusId(Guid calledStatusId);
         public Called GetById(Guid id);
         public string DeleteById(Guid id);
     }

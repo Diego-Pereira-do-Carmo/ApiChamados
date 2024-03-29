@@ -51,6 +51,36 @@ namespace ApiChamados.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("getByCode/{code}")]
+        public async Task<IActionResult> GetByCode(string code)
+        {
+            try
+            {
+                var called = await _calledService.GetByCode(code);
+                return Ok(called);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Falha ao buscar os chamados" });
+            }
+        }
+
+        [HttpGet]
+        [Route("getByStatus/{calledStatusId}")]
+        public async Task<IActionResult> GetByCalledStatusId(Guid calledStatusId)
+        {
+            try
+            {
+                var calledList = await _calledService.GetByCalledStatusId(calledStatusId);
+                return Ok(calledList);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Falha ao buscar os chamados" });
+            }
+        }
+
         [HttpDelete]
         [Route("DeleteById")]
         public async Task<IActionResult> DeleteById([FromBody] Guid id)

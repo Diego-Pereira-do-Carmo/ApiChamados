@@ -28,9 +28,19 @@ namespace ApiChamados.Repository
             return await _context.Called.OrderBy(c => c.CreatedOn).ToListAsync();
         }
 
+        public async Task<Called> GetByCode(string code)
+        {
+            return await _context.Called.Where(c => c.Code == code).FirstOrDefaultAsync();
+        }
+
         public Called GetById(Guid id)
         {
             return _context.Called.Find(id);
+        }
+
+        public async Task<List<Called>> GetByCalledStatusId(Guid calledStatusId)
+        {
+            return await _context.Called.Where(c => c.CalledStatusId == calledStatusId).OrderBy(c => c.CreatedOn).ToListAsync();
         }
 
         public string DeleteById(Guid id)

@@ -23,6 +23,16 @@ namespace ApiChamados.Service
             return await _calledRepository.GetAll();
         }
 
+        public async Task<Called> GetByCode(string code)
+        {
+            return await _calledRepository.GetByCode(code);
+        }
+
+        public async Task<List<Called>> GetByCalledStatusId(Guid calledStatusId)
+        {
+            return await _calledRepository.GetByCalledStatusId(calledStatusId);
+        }
+
         public string DeleteById(Guid id)
         {
             return _calledRepository.DeleteById(id);
